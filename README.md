@@ -7,12 +7,14 @@
   
 - **Create a New Instance**:
   - Click on **Launch Instance**.
-  - INSTANCE
-    ![1](https://github.com/user-attachments/assets/c1883b80-c9d9-4e91-bc10-377d1d06b029)
-
+  - Instance nane
   - Choose **Ubuntu Server 20.04 LTS** as the AMI.
+     ![1](https://github.com/user-attachments/assets/c1883b80-c9d9-4e91-bc10-377d1d06b029)
     
+  - create key pair
   - Select an instance type (e.g., **t2.micro**).
+  - Edit Network (choose default VPC and enable auto assign Public IP)
+  - Set security group
   ![3](https://github.com/user-attachments/assets/70c9f5fa-7aa2-4b7b-8a37-4f463c357f86)
 ![2](https://github.com/user-attachments/assets/abfb20bf-4b3b-4446-91b7-abdc94386448)
 ![2 5](https://github.com/user-attachments/assets/ebe0edf6-f4d1-4c67-ab06-d22b21c24f7c)
@@ -24,8 +26,8 @@
   #!/bin/bash
   apt update -y
   apt install nginx mysql-server php-fpm php-mysql -y
-  ufw allow 'Nginx HTTP'
   systemctl enable nginx
+  ```
   
   ![new orig user data](https://github.com/user-attachments/assets/7211e49e-f928-437d-8f9d-8c410274beb0)
 
@@ -42,8 +44,9 @@ Check if the Nginx service is active and running by using the following command:
 
 ```bash
 service nginx status
-![9](https://github.com/user-attachments/assets/bc082763-3114-4aac-b3eb-5bf6c9281d64)
 ```
+
+![9](https://github.com/user-attachments/assets/bc082763-3114-4aac-b3eb-5bf6c9281d64)
 
 ## 4: Check Nginx Service Status
 
@@ -76,11 +79,9 @@ Secure MySQL:
 mysql_secure_installation
 ```
 
-![mysql secure install 1](https://github.com/user-attachments/assets/c5dd7e6e-0b7c-4576-99e2-fa65ae8e0931)
+  ![mysql secure install 1](https://github.com/user-attachments/assets/c5dd7e6e-0b7c-4576-99e2-fa65ae8e0931)
  ![secure installation 1](https://github.com/user-attachments/assets/dc3a77d6-5e6f-4d93-ab63-76f0bfc988ee)
-  ![secure installation 1](https://github.com/user-attachments/assets/b00df515-6625-4f1c-8b9e-0e3d9ef49f4c)
-
-
+ 
 7. Verify PHP Installation
  
 ```bash
@@ -197,6 +198,12 @@ Add the following PHP code:
 phpinfo();
 ?>
 ```
+Visit the server's public IP or domain to ensure the application is working.
+
+For the PHP info page, navigate to:
+
+- http://your_public_ip/info.php
+- If all is configured properly, you should see the PHP info page displaying details about your PHP installation.
 
 ![info php](https://github.com/user-attachments/assets/61963979-d44d-4a58-ac0e-04e849f5b9a2)
 
