@@ -35,8 +35,7 @@ Once the instance is running, SSH into the server (replace `your_public_ip` with
 ![5](https://github.com/user-attachments/assets/d12ce4a7-87d4-4bd7-849f-f39d5ed557b6)
 ![6](https://github.com/user-attachments/assets/c7123673-7e4b-42fc-9eb6-dfd4247ccb07)
 
-```bash
-ssh -i /path/to/your_key.pem ubuntu@your_public_ip
+
 ## Step 3: Check Nginx Service Status
 
 Check if the Nginx service is active and running by using the following command:
@@ -44,33 +43,38 @@ Check if the Nginx service is active and running by using the following command:
 ```bash
 service nginx status
 ![9](https://github.com/user-attachments/assets/bc082763-3114-4aac-b3eb-5bf6c9281d64)
+```
 
 ## 4: Check Nginx Service Status
 
 ```bash
 service nginx status
+```
 
 ![nginx status](https://github.com/user-attachments/assets/27133426-c189-47a7-82e0-9e25e1cfcd5e)
 
-5. Test if Nginx is Working
+## 5. Test if Nginx is Working
 Test if our nginx server will respond to request from the internet ON THE BROWSER
   ![7](https://github.com/user-attachments/assets/b05145dd-d3d1-4331-9a2b-dd23cd13178a)
 
 ```bash
 curl http://your_public_ip
+```
 
 ![curl test](https://github.com/user-attachments/assets/1ffe7c55-4ebe-46e9-bffe-e42f6459f0fd)
 
-6. Install and Configure MySQL
+## 6. Install and Configure MySQL
 Open MySQL:
 
 ```bash
 mysql
+```
 ![sql new working](https://github.com/user-attachments/assets/d958238a-6f52-4b71-a645-7af3f9f9e1a7)
 
 Secure MySQL:
 ```bash
 mysql_secure_installation
+```
 
 ![mysql secure install 1](https://github.com/user-attachments/assets/c5dd7e6e-0b7c-4576-99e2-fa65ae8e0931)
  ![secure installation 1](https://github.com/user-attachments/assets/dc3a77d6-5e6f-4d93-ab63-76f0bfc988ee)
@@ -81,6 +85,7 @@ mysql_secure_installation
  
 ```bash
 php -v
+```
 ![php -v](https://github.com/user-attachments/assets/f24da86f-121f-43a3-bf38-2bc270aa2b2a)
 
 8. Set Up Your Project Directory
@@ -88,16 +93,19 @@ Create a directory for your project:
 
 ```bash
 mkdir /var/www/html/lempstack
+```
 Set the correct ownership for the project directory:
 
 ```bash
 chown -R $USER:$USER /var/www/lempstack
+```
 
 9. Configure Nginx for Your Project
 Create a new Nginx server block file for your project:
 
 ```bash
 vim /etc/nginx/sites-available/lempstack
+```
 
 Add the following configuration (adjust paths as needed):
 
@@ -121,6 +129,7 @@ server {
         deny all;
     }
 }
+```
 
 ## 10. Enable the Nginx Configuration
 Link the newly created configuration to the sites-enabled directory:
@@ -128,29 +137,38 @@ Link the newly created configuration to the sites-enabled directory:
 ```bash
 sudo ln -s /etc/nginx/sites-available/lempstack /etc/nginx/sites-enabled/
 Test the configuration:
+```
 
 ```bash
 sudo nginx -t
+```
+![nginx -t test](https://github.com/user-attachments/assets/05ec4b2f-bef3-45c0-9915-867730539f22)
 
 Remove the default configuration (optional):
 
 ```bash
 unlink /etc/nginx/sites-enabled/default
+```
 
 Reload Nginx:
 
 ```bash
 service nginx reload
+```
 
 ## 11. Create Your Web Pages
 Navigate to your project directory:
+```
 
 ```bash
 cd /var/www/lempstack
+```
+
 Create a temporary index.html page:
 
 ```bash
 vi index.html
+```
 Add the following content:
 
 ```html
@@ -163,24 +181,31 @@ Copy code
     <h1>This is my temporary page while the site is being worked on!!!</h1>
 </body>
 </html>
+```
+![test page of lemp](https://github.com/user-attachments/assets/55da2207-3ebb-47bc-960e-d1fe03c7d049)
 
 ## 12. Create a PHP Info Page for Testing
 Create an info.php file:
 
 ```bash
 vi info.php
+```
 Add the following PHP code:
 
 ```php
 <?php
 phpinfo();
 ?>
+```
+
+![info php](https://github.com/user-attachments/assets/61963979-d44d-4a58-ac0e-04e849f5b9a2)
 
 ## 13. Set Up MySQL Database
 Log into MySQL as root:
 
 ```bash
 sudo mysql
+```
 Create a new MySQL user and database:
 
 ```sql
@@ -188,17 +213,22 @@ CREATE DATABASE tododb;
 CREATE USER 'todouser'@'localhost' IDENTIFIED BY 'password';
 GRANT ALL PRIVILEGES ON tododb.* TO 'todouser'@'localhost';
 FLUSH PRIVILEGES;
+```
+![SQL OUTPUT](https://github.com/user-attachments/assets/f026dc66-5a57-4112-8a98-982de5398b95)
+
 
 ## 14. Deploy Your PHP Application
 Create a new PHP file for your application:
 
 ```bash
 vi /var/www/lempstack/todo_list.php
+```
 
 Add your PHP application code.
 
-15. Testing the Application
+## 15. Testing the Application
 Visit the server's public IP or domain to ensure the application is working.
+![Final page](https://github.com/user-attachments/assets/32aee91e-dae1-472b-b03a-f29f873a6a94)
 
 For the PHP info page, access:
 
