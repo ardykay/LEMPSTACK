@@ -14,10 +14,16 @@
   - create key pair
   - Select an instance type (e.g., **t2.micro**).
   - Edit Network (choose default VPC and enable auto assign Public IP)
-  - Set security group
-  ![3](https://github.com/user-attachments/assets/70c9f5fa-7aa2-4b7b-8a37-4f463c357f86)
-![2](https://github.com/user-attachments/assets/abfb20bf-4b3b-4446-91b7-abdc94386448)
-![2 5](https://github.com/user-attachments/assets/ebe0edf6-f4d1-4c67-ab06-d22b21c24f7c)
+  - Set security group [Configure the instance, ensuring you allow HTTP (port 80) and SSH (port 22) in your security group.]
+    ![2 5](https://github.com/user-attachments/assets/ebe0edf6-f4d1-4c67-ab06-d22b21c24f7c)
+  
+    ![2](https://github.com/user-attachments/assets/abfb20bf-4b3b-4446-91b7-abdc94386448)
+    
+    ![3](https://github.com/user-attachments/assets/70c9f5fa-7aa2-4b7b-8a37-4f463c357f86)
+    
+  - Launch the instance and connect using EC2 CONNECT
+    ![5](https://github.com/user-attachments/assets/d57ada89-92c0-4793-9c97-3c1544aed443)
+    ![6](https://github.com/user-attachments/assets/04187d1a-c743-425c-bea8-19edf4c70abd)
 
 - **Configure User Data**:  
   During instance launch, add a **User Data** script to automatically install and configure the LEMP stack:
@@ -221,25 +227,73 @@ CREATE USER 'todouser'@'localhost' IDENTIFIED BY 'password';
 GRANT ALL PRIVILEGES ON tododb.* TO 'todouser'@'localhost';
 FLUSH PRIVILEGES;
 ```
+Setting Up the Database
+Create a table in the MySQL database to store tasks for a todo list:
+
+```sql
+USE todo_db;
+CREATE TABLE todo_list (
+    item_id INT AUTO_INCREMENT,
+    content VARCHAR(255),
+    PRIMARY KEY(item_id)
+);
+
+INSERT INTO todo_list (content) VALUES ('My first important item is to get the project done on time');
+INSERT INTO todo_list (content) VALUES ('My second important item is to get the project to client');
+INSERT INTO todo_list (content) VALUES ('My third important item is to ensure client love it');
+```
+
 ![SQL OUTPUT](https://github.com/user-attachments/assets/f026dc66-5a57-4112-8a98-982de5398b95)
 
 
 ## 14. Deploy Your PHP Application
-Create a new PHP file for your application:
+**Create a new PHP file for your application to display the contents of the todo list:**
 
 ```bash
 vi /var/www/lempstack/todo_list.php
 ```
+**Add your PHP application code:**
 
-Add your PHP application code.
+```
+<?php
+$user = 'todouser';
+$password = 'Password.1';
+$database = 'todo_db';
+$table = 'todo_list';
+
+try {
+    $db = new PDO('mysql:host=localhost;dbname=' . $database, $user, $password);
+    echo '<h2>Todo List</h2><ol>';
+    $todo_list = $db->query("SELECT content FROM $table");
+
+    foreach($todo_list as $row) {
+        echo '<li>' . $row['content'] . '</li>';
+    }
+
+    echo '</ol>';
+} catch (PDOException $e) {
+    echo 'Error: ' . $e->getMessage() . '<br/>';
+    die();
+}
+?>
+```
 
 ## 15. Testing the Application
 Visit the server's public IP or domain to ensure the application is working.
-![Final page](https://github.com/user-attachments/assets/32aee91e-dae1-472b-b03a-f29f873a6a94)
 
-For the PHP info page, access:
+For the PHP info page, you can access it in your browser:
 
 ```arduino
 http://your_public_ip/info.php
+```
+![Final page](https://github.com/user-attachments/assets/32aee91e-dae1-472b-b03a-f29f873a6a94)
 
-This guide, including your command history, walks through the successful setup and deployment of a LEMP stack on AWS using Nginx, MySQL, PHP, and steps to create and configure a project directory.
+# Conclusion
+In this guide, you have successfully implemented the LEMP stack on an AWS EC2 instance running Ubuntu 24.04 LTS. You installed Nginx as the web server, MySQL as the database, and PHP for dynamic content processing. You also created a simple PHP application to interact with your MySQL database.
+
+What I learned:
+* Automating server setup using user data in EC2.
+* Best practices for LEMP stack configuration and deployment.
+* Troubleshooting Nginx and MySQL configurations in a real-world environment.
+* This project helped me deepen my understanding of cloud infrastructure, server management, and system integration. Looking forward to applying these skills to future projects! 💻
+
