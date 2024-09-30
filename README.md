@@ -1,4 +1,5 @@
 # Step-by-Step LEMP Stack Deployment on AWS 
+## This project involved setting up the entire infrastructure from scratch, configuring the environment, and ensuring smooth integration between the components. 🛠️
 
 ## 1. Launch an EC2 Instance on AWS
 
@@ -11,21 +12,17 @@
   - Choose **Ubuntu Server 20.04 LTS** as the AMI.
      ![1](https://github.com/user-attachments/assets/c1883b80-c9d9-4e91-bc10-377d1d06b029)
     
-  - create key pair
-  - Select an instance type (e.g., **t2.micro**).
-  - Edit Network (choose default VPC and enable auto assign Public IP)
-  - Set security group [Configure the instance, ensuring you allow HTTP (port 80) and SSH (port 22) in your security group.]
+  - **create key pair**
+  - **Select an instance type (e.g., **t2.micro**).**
+  - **Edit Network (choose default VPC and enable auto assign Public IP)**
+  - **Set security group [Configure the instance, ensuring you allow HTTP (port 80) and SSH (port 22) in your security group.]**
     ![2 5](https://github.com/user-attachments/assets/ebe0edf6-f4d1-4c67-ab06-d22b21c24f7c)
   
     ![2](https://github.com/user-attachments/assets/abfb20bf-4b3b-4446-91b7-abdc94386448)
     
     ![3](https://github.com/user-attachments/assets/70c9f5fa-7aa2-4b7b-8a37-4f463c357f86)
     
-  - Launch the instance and connect using EC2 CONNECT
-    ![5](https://github.com/user-attachments/assets/d57ada89-92c0-4793-9c97-3c1544aed443)
-    ![6](https://github.com/user-attachments/assets/04187d1a-c743-425c-bea8-19edf4c70abd)
-
-- **Configure User Data**:  
+ - **Configure User Data**:  
   During instance launch, add a **User Data** script to automatically install and configure the LEMP stack:
 
   ```bash
@@ -34,19 +31,19 @@
   apt install nginx mysql-server php-fpm php-mysql -y
   systemctl enable nginx
   ```
-  
   ![new orig user data](https://github.com/user-attachments/assets/7211e49e-f928-437d-8f9d-8c410274beb0)
+  - **Launch the instance**
 
 ## 2: Access the EC2 Instance
 
-Once the instance is running, SSH into the server (replace `your_public_ip` with your EC2 public IP):
+Once the instance is running,  connect using EC2 CONNECT:
 ![5](https://github.com/user-attachments/assets/d12ce4a7-87d4-4bd7-849f-f39d5ed557b6)
 ![6](https://github.com/user-attachments/assets/c7123673-7e4b-42fc-9eb6-dfd4247ccb07)
 
 
 ## Step 3: Check Nginx Service Status
 
-Check if the Nginx service is active and running by using the following command:
+**Check if the Nginx service is active and running by using the following command:**
 
 ```bash
 service nginx status
@@ -55,6 +52,7 @@ service nginx status
 ![9](https://github.com/user-attachments/assets/bc082763-3114-4aac-b3eb-5bf6c9281d64)
 
 ## 4: Check Nginx Service Status
+We can check if the web server is currently running on our CLI
 
 ```bash
 service nginx status
@@ -63,8 +61,10 @@ service nginx status
 ![nginx status](https://github.com/user-attachments/assets/27133426-c189-47a7-82e0-9e25e1cfcd5e)
 
 ## 5. Test if Nginx is Working
-Test if our nginx server will respond to request from the internet ON THE BROWSER
+Test if our nginx server will respond to request from the internet ON **THE BROWSER**
   ![7](https://github.com/user-attachments/assets/b05145dd-d3d1-4331-9a2b-dd23cd13178a)
+  
+**Curl test Nginx web service respond to curl command with some payload**
 
 ```bash
 curl http://your_public_ip
